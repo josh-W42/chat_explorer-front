@@ -12,7 +12,7 @@ export const Message: FunctionComponent<Props> = ({ content }) => {
         border: "1px solid black",
         padding: 1,
         borderRadius: "5%",
-        background: "#EEF5FF",
+        background: "#BB9CC0",
         margin: "20px 0px",
       }}
     >

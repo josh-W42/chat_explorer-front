@@ -1,7 +1,6 @@
 import {
   AppBar,
   Avatar,
-  Container,
   Grid,
   IconButton,
   TextField,
@@ -28,6 +27,7 @@ export const Chat: FunctionComponent = () => {
     try {
       const { data } = await axios.get("http://localhost:5000/api/messages");
       const messages = data.messages;
+      console.log(messages);
       setMessageList(messages);
     } catch (error) {
       console.error(error);
@@ -47,7 +47,7 @@ export const Chat: FunctionComponent = () => {
     }
   };
 
-  const getMessageComponents = () => {
+  const mapMessages = () => {
     return messageList.map((message) => {
       return (
         <Message
@@ -59,55 +59,79 @@ export const Chat: FunctionComponent = () => {
   };
 
   return (
-    <Container sx={{ border: "1px solid black", width: "25%" }}>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <AppBar
-            position="relative"
-            sx={{
-              width: "100%",
-              background: "inherit",
-              display: "flex",
-              flexDirection: "row",
-            }}
-            elevation={0}
-          >
-            <Avatar />
-            <Typography variant="h6" color={"black"} component={"h1"}>
-              Who you're talking to
-            </Typography>
-          </AppBar>
-        </Grid>
-        <Grid item xs={12} sx={{ padding: 0 }}>
-          {getMessageComponents()}
-        </Grid>
-        <Grid item xs={12} sx={{ padding: 0 }}>
-          <AppBar
-            position="relative"
-            sx={{
-              width: "100%",
-              background: "inherit",
-              display: "flex",
-              flexDirection: "row",
-            }}
-            elevation={0}
-          >
-            <TextField
-              type="text"
-              value={userInput}
-              onChange={({ target }) => setUserInput(target.value)}
-            />
-            <IconButton
-              size="large"
-              onClick={() => {
-                handleSubmit();
-              }}
-            >
-              <SendIcon />
-            </IconButton>
-          </AppBar>
-        </Grid>
+    <Grid
+      container
+      xs={12}
+      sm={8}
+      md={6}
+      lg={4}
+      xl={3}
+      sx={{
+        border: "1px solid black",
+        margin: "auto",
+        background:
+          "linear-gradient(rgba(187, 156, 192, 0.9), rgba(103, 114, 157, 0.5));",
+      }}
+    >
+      <Grid item xs={12}>
+        <AppBar
+          position="relative"
+          sx={{
+            width: "100%",
+            background: "inherit",
+            display: "flex",
+            flexDirection: "row",
+            padding: 2,
+          }}
+          elevation={0}
+        >
+          <Avatar />
+          <Typography variant="h6" color={"black"} component={"h1"}>
+            Who you're talking to
+          </Typography>
+        </AppBar>
       </Grid>
-    </Container>
+      <Grid
+        item
+        xs={12}
+        sx={{
+          padding: 2,
+          background: "inherit",
+        }}
+      >
+        {mapMessages()}
+      </Grid>
+      <Grid item xs={12} sx={{ padding: 0 }}>
+        <AppBar
+          position="relative"
+          sx={{
+            width: "100%",
+            background: "inherit",
+            display: "flex",
+            flexDirection: "row",
+            padding: 3,
+            alignContent: "space-evenly",
+          }}
+        >
+          <TextField
+            sx={{ background: "white", borderRadius: "5%" }}
+            type="text"
+            value={userInput}
+            multiline
+            minRows={1}
+            onChange={({ target }) => setUserInput(target.value)}
+          />
+          <IconButton
+            size="large"
+            sx={{ color: "white" }}
+            onClick={() => {
+              handleSubmit();
+            }}
+          >
+            <SendIcon />
+          </IconButton>
+        </AppBar>
+      </Grid>
+    </Grid>
   );
 };
