@@ -1,22 +1,37 @@
-import { Box } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 import { FunctionComponent } from "react";
+import moment from "moment";
 
-interface Props {
+export interface MessageStruct {
   content: string;
+  createdAt: string;
+  deletedAt: string | null;
+  updatedAt: string;
+  id: string;
 }
 
-export const Message: FunctionComponent<Props> = ({ content }) => {
+interface Props {
+  messageData: MessageStruct;
+}
+
+export const Message: FunctionComponent<Props> = ({ messageData }) => {
+  const { content, createdAt } = messageData;
+
   return (
-    <Box
+    <Paper
       sx={{
-        border: "1px solid black",
         padding: 1,
-        borderRadius: "5%",
-        background: "#BB9CC0",
+        background: "rgba(255, 255, 255, 0.3)",
         margin: "20px 0px",
+        display: "flex",
+        justifyContent: "space-between",
       }}
+      elevation={3}
     >
-      {content}
-    </Box>
+      <Typography fontSize={"15pt"}>{content}</Typography>
+      <Typography fontStyle={"italic"} fontWeight={"bolder"}>
+        {moment(createdAt).format("h:mm a")}
+      </Typography>
+    </Paper>
   );
 };
