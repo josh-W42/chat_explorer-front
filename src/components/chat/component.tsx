@@ -5,12 +5,16 @@ import {
   IconButton,
   TextField,
   Typography,
+  Tooltip,
 } from "@mui/material";
 import { FunctionComponent, useEffect, useState } from "react";
 import { Message, MessageStruct } from "./components";
 import SendIcon from "@mui/icons-material/Send";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import axios from "axios";
 import moment from "moment";
+import MoreVert from "@mui/icons-material/MoreVert";
 
 export const Chat: FunctionComponent = () => {
   const [userInput, setUserInput] = useState<string>("");
@@ -69,8 +73,7 @@ export const Chat: FunctionComponent = () => {
         );
       }
 
-      const deltaDay = messageDate.diff(lastDate, "days");
-      if (deltaDay >= 1) {
+      if (messageDate.day() !== lastDate.day()) {
         lastDate = messageDate;
         return (
           <div key={message.id}>
@@ -120,6 +123,7 @@ export const Chat: FunctionComponent = () => {
               display: "flex",
               flexDirection: "row",
               padding: 2,
+              justifyContent: "space-evenly",
             }}
             elevation={0}
           >
@@ -127,6 +131,9 @@ export const Chat: FunctionComponent = () => {
             <Typography variant="h6" color={"black"} component={"h1"}>
               Who you're talking to
             </Typography>
+            <IconButton>
+              <MoreVert />
+            </IconButton>
           </AppBar>
         </Grid>
         <Grid
@@ -137,6 +144,7 @@ export const Chat: FunctionComponent = () => {
             background: "inherit",
             maxHeight: "500px",
             overflow: "auto",
+            scrollbarWidth: "none",
           }}
         >
           {mapMessages()}
@@ -154,6 +162,11 @@ export const Chat: FunctionComponent = () => {
               justifyContent: "center",
             }}
           >
+            <Tooltip title="Attach an image" arrow>
+              <IconButton size="large" sx={{ color: "white" }}>
+                <AddPhotoAlternateIcon />
+              </IconButton>
+            </Tooltip>
             <TextField
               sx={{
                 background: "white",
@@ -162,18 +175,19 @@ export const Chat: FunctionComponent = () => {
               type="text"
               value={userInput}
               multiline
-              minRows={1}
               onChange={({ target }) => setUserInput(target.value)}
             />
-            <IconButton
-              size="large"
-              sx={{ color: "white" }}
-              onClick={() => {
-                handleSubmit();
-              }}
-            >
-              <SendIcon />
-            </IconButton>
+            <Tooltip title="Ctrl-Enter" arrow>
+              <IconButton
+                size="large"
+                sx={{ color: "white" }}
+                onClick={() => {
+                  handleSubmit();
+                }}
+              >
+                <SendIcon />
+              </IconButton>
+            </Tooltip>
           </AppBar>
         </Grid>
       </Grid>

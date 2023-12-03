@@ -28,7 +28,13 @@ export const Message: FunctionComponent<Props> = ({ messageData }) => {
       }}
       elevation={3}
     >
-      <Typography fontSize={"15pt"}>{content}</Typography>
+      <Typography
+        sx={{ whiteSpace: "pre-wrap" }}
+        variant="body1"
+        fontSize={"15pt"}
+      >
+        {content}
+      </Typography>
       <Typography fontStyle={"italic"} fontWeight={"bolder"}>
         {moment(createdAt).format("h:mm a")}
       </Typography>
