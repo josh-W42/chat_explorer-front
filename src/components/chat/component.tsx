@@ -11,7 +11,6 @@ import { FunctionComponent, useEffect, useState } from "react";
 import { Message, MessageStruct } from "./components";
 import SendIcon from "@mui/icons-material/Send";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import axios from "axios";
 import moment from "moment";
 import MoreVert from "@mui/icons-material/MoreVert";
