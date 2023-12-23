@@ -7,53 +7,35 @@ import {
   Typography,
   Tooltip,
 } from "@mui/material";
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent } from "react";
 import { Message, MessageStruct } from "./components";
 import SendIcon from "@mui/icons-material/Send";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import axios from "axios";
 import moment from "moment";
 import MoreVert from "@mui/icons-material/MoreVert";
+import { ChatVars } from "./types";
 
-export const Chat: FunctionComponent = () => {
-  const [userInput, setUserInput] = useState<string>("");
-  const [messageList, setMessageList] = useState<MessageStruct[]>([]);
+interface Props {
+  userInput: string;
+  messages: MessageStruct[];
+  setVar: (state: ChatVars, val: unknown) => void;
+  handleSubmit: () => Promise<void>;
+}
 
-  useEffect(() => {
-    getMessages();
-  }, []);
-
-  const getMessages = async () => {
-    try {
-      const { data } = await axios.get("http://localhost:5000/api/messages");
-      const messages = data.messages;
-      setMessageList(messages);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleSubmit = async () => {
-    try {
-      const { data } = await axios.post("http://localhost:5000/api/messages", {
-        content: userInput,
-      });
-      const newMessage = data.message;
-      setMessageList((old) => old.concat([newMessage]));
-      setUserInput("");
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
+export const ChatComponent: FunctionComponent<Props> = ({
+  userInput,
+  messages,
+  setVar,
+  handleSubmit,
+}) => {
   const mapMessages = () => {
-    const first = messageList[0] ?? null;
+    const first = messages[0] ?? null;
     if (!first) {
       return <></>;
     }
 
     let lastDate = moment(first.createdAt);
-    return messageList.map((message, i) => {
+    return messages.map((message, i) => {
       const messageDate = moment(message.createdAt);
 
       if (i == 0) {
@@ -174,7 +156,9 @@ export const Chat: FunctionComponent = () => {
               type="text"
               value={userInput}
               multiline
-              onChange={({ target }) => setUserInput(target.value)}
+              onChange={({ target }) =>
+                setVar(ChatVars.userInput, target.value)
+              }
             />
             <Tooltip title="Ctrl-Enter" arrow>
               <IconButton
