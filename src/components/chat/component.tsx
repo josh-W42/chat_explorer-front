@@ -6,6 +6,7 @@ import {
   TextField,
   Typography,
   Tooltip,
+  Box,
 } from "@mui/material";
 import { FunctionComponent } from "react";
 import { Message, MessageStruct } from "./components";
@@ -87,15 +88,24 @@ export const ChatComponent: FunctionComponent<Props> = ({
         sm={8}
         md={6}
         lg={4}
-        xl={3}
         sx={{
           border: "1px solid black",
           margin: "auto",
+          maxHeight: "100vh",
+          height: "100vh",
+          overflow: "hidden",
           background:
             "linear-gradient(rgba(187, 156, 192, 0.9), rgba(103, 114, 157, 0.5));",
         }}
       >
-        <Grid item xs={12}>
+        <Grid
+          item
+          xs={12}
+          sx={{
+            height: "10vh",
+            maxHeight: "10vh",
+          }}
+        >
           <AppBar
             position="relative"
             sx={{
@@ -103,7 +113,6 @@ export const ChatComponent: FunctionComponent<Props> = ({
               background: "inherit",
               display: "flex",
               flexDirection: "row",
-              padding: 2,
               justifyContent: "space-evenly",
             }}
             elevation={0}
@@ -123,14 +132,19 @@ export const ChatComponent: FunctionComponent<Props> = ({
           sx={{
             padding: 2,
             background: "inherit",
-            maxHeight: "500px",
+            maxHeight: "80vh",
+            height: "80vh",
             overflow: "auto",
             scrollbarWidth: "none",
           }}
         >
           {mapMessages()}
         </Grid>
-        <Grid item xs={12} sx={{ padding: 0 }}>
+        <Grid
+          item
+          xs={12}
+          sx={{ padding: 0, height: "10vh", maxHeight: "10vh" }}
+        >
           <AppBar
             position="relative"
             sx={{
@@ -139,38 +153,49 @@ export const ChatComponent: FunctionComponent<Props> = ({
               display: "flex",
               flexDirection: "row",
               flexWrap: "wrap",
-              padding: 3,
               justifyContent: "center",
+              height: "inherit",
             }}
           >
-            <Tooltip title="Attach an image" arrow>
-              <IconButton size="large" sx={{ color: "white" }}>
-                <AddPhotoAlternateIcon />
-              </IconButton>
-            </Tooltip>
-            <TextField
-              sx={{
-                background: "white",
-                borderRadius: "5%",
-              }}
-              type="text"
-              value={userInput}
-              multiline
-              onChange={({ target }) =>
-                setVar(ChatVars.userInput, target.value)
-              }
-            />
-            <Tooltip title="Ctrl-Enter" arrow>
-              <IconButton
-                size="large"
-                sx={{ color: "white" }}
-                onClick={() => {
-                  handleSubmit();
+            <Box sx={{ margin: "auto" }}>
+              <Tooltip title="Attach an image" arrow>
+                <IconButton size="large" sx={{ color: "white" }}>
+                  <AddPhotoAlternateIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Box sx={{ marginY: "auto" }}>
+              <TextField
+                sx={{
+                  background: "white",
+                  borderRadius: "5%",
                 }}
-              >
-                <SendIcon />
-              </IconButton>
-            </Tooltip>
+                type="text"
+                value={userInput}
+                multiline
+                minRows={3}
+                onChange={({ target }) =>
+                  setVar(ChatVars.userInput, target.value)
+                }
+              />
+            </Box>
+            <Box
+              sx={{
+                margin: "auto",
+              }}
+            >
+              <Tooltip title="Ctrl-Enter" arrow>
+                <IconButton
+                  size="large"
+                  sx={{ color: "white" }}
+                  onClick={() => {
+                    handleSubmit();
+                  }}
+                >
+                  <SendIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
           </AppBar>
         </Grid>
       </Grid>
